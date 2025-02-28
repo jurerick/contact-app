@@ -38,7 +38,7 @@
 
     <button id="delete-btn"
             class="bad bg color border"
-            hx-delete="/contacts/{{ contact.id }}"
+            hx-post="/contacts/{{ contact.id }}"
             hx-push-url="true"
             hx-trigger="confirmed"
             hx-target="body"

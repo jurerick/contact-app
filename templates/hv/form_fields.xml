@@ -1,0 +1,58 @@
+<view style="edit-group">
+    {% if saved %}
+    <behavior 
+        trigger="load" 
+        action="dispatch-event" 
+        event-name="contact-updated"
+    />
+    <behavior 
+        trigger="load" 
+        action="reload" 
+        href="/contacts/{{ contact.id }}" 
+    />
+    {% endif %}
+
+    <view style="edit-field">
+        <text-field 
+            name="first_name" 
+            placeholder="First name" 
+            value="{{ contact.first }}" 
+        />
+        <text style="edit-field-error">
+            {{ contact.errors.first }}
+        </text>
+    </view>
+
+    <view style="edit-field">
+        <text-field 
+            name="last_name" 
+            placeholder="Last name" 
+            value="{{ contact.last }}" 
+        />
+        <text style="edit-field-error">
+            {{ contact.errors.last }}
+        </text>
+    </view>
+
+    <view style="edit-field">
+        <text-field 
+            name="email" 
+            placeholder="Email" 
+            value="{{ contact.email }}" 
+        />
+        <text style="edit-field-error">
+            {{ contact.errors.email }}
+        </text>
+    </view>
+
+    <view style="edit-field">
+        <text-field 
+            name="phone" 
+            placeholder="Phone" 
+            value="{{ contact.phone }}" 
+        />
+        <text style="edit-field-error">
+            {{ contact.errors.phone }}
+        </text>
+    </view>
+</view>

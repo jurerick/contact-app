@@ -1,5 +1,5 @@
 from flask import (
-    Flask, redirect, render_template, request, flash, jsonify, send_file
+    Flask, redirect, render_template, make_response, request, flash, jsonify, send_file
 )
 from contacts_model import Contact, Archiver
 import time
@@ -14,23 +14,34 @@ app = Flask(__name__)
 
 app.secret_key = b'hypermedia rocks'
 
+HTML_MIME = 'text/html'
+HXML_MIME = 'application/vnd.hyperview+xml'
+
+def render_to_response(html_template_name, hxml_template_name, *args, **kwargs):
+    response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
+    template_name = hxml_template_name if response_type == HXML_MIME else html_template_name
+    content = render_template(template_name, *args, **kwargs)
+    response = make_response(content)
+    response.headers['Content-Type'] = response_type
+    return response
 
 @app.route("/")
 def index():
     return redirect("/contacts")
 
-
 @app.route("/contacts")
 def contacts():
     search = request.args.get("q")
     page = int(request.args.get("page", 1))
+    rows_only = request.args.get("rows_only") == "true"
     if search is not None:
         contacts_set = Contact.search(search)
         if request.headers.get('HX-Trigger') == 'search':
-            return render_template("rows.html", contacts=contacts_set)
+            return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set)
     else:
         contacts_set = Contact.all(page)
-    return render_template("index.html", contacts=contacts_set, page=page, archiver=Archiver.get())
+    template_type = "rows" if rows_only else "index"
+    return render_to_response(template_type + ".html", "hv/" + template_type + ".xml", contacts=contacts_set, page=page, archiver=Archiver.get())
 
 
 @app.route("/contacts/archive", methods=["POST"])
@@ -67,7 +78,7 @@ def contacts_count():
 
 @app.route("/contacts/new", methods=['GET'])
 def contacts_new_get():
-    return render_template("new.html", contact=Contact())
+    return render_to_response("new.html", "hv/new.xml", contact=Contact())
 
 
 @app.route("/contacts/new", methods=['POST'])
@@ -76,21 +87,25 @@ def contacts_new():
                 request.form['email'])
     if c.save():
         flash("Created New Contact!")
-        return redirect("/contacts")
+        response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
+        if response_type == HXML_MIME:
+            return render_to_response('', 'hv/form_fields.xml', saved=True)
+        else:
+            return redirect("/contacts")
     else:
-        return render_template("new.html", contact=c)
+        return render_to_response("new.html", "hv/form_fields.xml", contact=c)
 
 
 @app.route("/contacts/<contact_id>")
 def contacts_view(contact_id=0):
     contact = Contact.find(contact_id)
-    return render_template("show.html", contact=contact)
+    return render_to_response("show.html", "hv/show.xml", contact=contact)
 
 
 @app.route("/contacts/<contact_id>/edit", methods=["GET"])
 def contacts_edit_get(contact_id=0):
     contact = Contact.find(contact_id)
-    return render_template("edit.html", contact=contact)
+    return render_to_response("edit.html", "hv/edit.xml", contact=contact)
 
 
 @app.route("/contacts/<contact_id>/edit", methods=["POST"])
@@ -99,9 +114,13 @@ def contacts_edit_post(contact_id=0):
     c.update(request.form['first_name'], request.form['last_name'], request.form['phone'], request.form['email'])
     if c.save():
         flash("Updated Contact!")
-        return redirect("/contacts/" + str(contact_id))
+        response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
+        if response_type == HXML_MIME:
+            return render_to_response('', 'hv/form_fields.xml', contact=c, saved=True)
+        else:
+            return redirect("/contacts/" + str(contact_id))
     else:
-        return render_template("edit.html", contact=c)
+        return render_to_response("edit.html", "hv/form_fields.xml", contact=c)
 
 
 @app.route("/contacts/<contact_id>/email", methods=["GET"])
@@ -112,25 +131,30 @@ def contacts_email_get(contact_id=0):
     return c.errors.get('email') or ""
 
 
-@app.route("/contacts/<contact_id>", methods=["DELETE"])
+@app.route("/contacts/<contact_id>", methods=["POST"])
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)
     contact.delete()
     if request.headers.get('HX-Trigger') == 'delete-btn':
         flash("Deleted Contact!")
-        return redirect("/contacts", 303)
+        response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
+        if response_type == HXML_MIME:
+            return render_to_response('', 'hv/deleted.xml')
+        else:
+            return redirect("/contacts", 303)
     else:
         return ""
 
 
-@app.route("/contacts/", methods=["DELETE"])
+@app.route("/contacts", methods=["DELETE"])
 def contacts_delete_all():
+    page = 1
     contact_ids = list(map(int, request.form.getlist("selected_contact_ids")))
     for contact_id in contact_ids:
         contact = Contact.find(contact_id)
         contact.delete()
     flash("Deleted Contacts!")
-    contacts_set = Contact.all()
+    contacts_set = Contact.all(page)
     return render_template("index.html", contacts=contacts_set)
 
 

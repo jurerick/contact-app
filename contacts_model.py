@@ -8,7 +8,7 @@ from random import random
 # ========================================================
 # Contact Model
 # ========================================================
-PAGE_SIZE = 100
+PAGE_SIZE = 30
 
 class Contact:
     # mock contacts database

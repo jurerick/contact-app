@@ -1,0 +1,25 @@
+<doc xmlns="https://hyperview.org/hyperview">
+    <screen>
+    <styles>
+        <style id="body" flex="1" flexDirection="column" />
+        <style id="header" display="flex" justifyContent="space-between" flexDirection="row" paddingLeft="24" paddingRight="24" paddingTop="12" paddingBottom="12" borderBottomWidth="1" borderBottomColor="#ccc" />
+        <style id="header-title" fontWeight="bold" fontSize="18" />
+        <style id="header-button" fontWeight="bold" borderColor="#aaa" borderRadius="4" borderWidth="1" paddingLeft="5" paddingRight="5" paddingTop="2" paddingBottom="2" />
+        <style id="contact-item" borderBottomWidth="1" borderBottomColor="#f2f4f4" paddingLeft="24" paddingRight="24" paddingTop="30" paddingBottom="30" />
+        <style id="search-field" backgroundColor="#fcfcfc" borderBottomColor="#ccc" borderBottomWidth="1" padding="24" />
+        <style id="load-more-item" padding="24" />
+        <style id="loading-text" fontSize="13" color="#666" />
+    </styles>
+    <body style="body" safe-area="true">
+        <header style="header">
+            {% block header %}
+                <text style="header-title">Contact.app</text>
+            {% endblock %}
+        </header>
+
+        <view style="main">
+            {% block content %}{% endblock %}
+        </view>
+    </body>
+</screen>
+</doc>
