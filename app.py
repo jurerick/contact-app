@@ -36,12 +36,11 @@ def contacts():
     rows_only = request.args.get("rows_only") == "true"
     if search is not None:
         contacts_set = Contact.search(search)
-        if request.headers.get('HX-Trigger') == 'search':
-            return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set)
+        return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set, page=page)
     else:
         contacts_set = Contact.all(page)
     template_type = "rows" if rows_only else "index"
-    return render_to_response(template_type + ".html", "hv/" + template_type + ".xml", contacts=contacts_set, page=page, archiver=Archiver.get())
+    return render_to_response(template_type + ".html", "hv/"+template_type+".xml", contacts=contacts_set, page=page, archiver=Archiver.get())
 
 
 @app.route("/contacts/archive", methods=["POST"])

@@ -1,18 +1,22 @@
 <items xmlns="https://hyperview.org/hyperview">
     {% for contact in contacts %}
-    <item key="{{ contact.id }}" style="contact-item">
-        <behavior trigger="press" action="push" href="/contacts/{{ contact.id }}" />
-        <text style="contact-item-label">
-            {% if contact.first %}
-                {{ contact.first }} {{ contact.last }}
-            {% elif contact.phone %}
-                {{ contact.phone }}
-            {% elif contact.email %}
-                {{ contact.email }}
-            {% endif %}
-        </text>
-    </item>
+        <item key="{{ contact.id }}" style="contact-item">
+            <behavior trigger="press" 
+                action="push" 
+                href="/contacts/{{ contact.id }}" 
+            />
+            <text style="contact-item-label">
+                {% if contact.first %}
+                    {{ contact.first }} {{ contact.last }}
+                {% elif contact.phone %}
+                    {{ contact.phone }}
+                {% elif contact.email %}
+                    {{ contact.email }}
+                {% endif %}
+            </text>
+        </item>
     {% endfor %}
+
     {% if contacts|length > 0 %}
     <item key="load-more" id="load-more" style="load-more-item">
         <behavior 
