@@ -1,24 +1,65 @@
 <items xmlns="https://hyperview.org/hyperview">
     {% for contact in contacts %}
-        <item key="{{ contact.id }}" style="contact-item">
-            <behavior trigger="press" 
-                action="push" 
-                href="/contacts/{{ contact.id }}" 
-            />
-            <text style="contact-item-label">
-                {% if contact.first %}
-                    {{ contact.first }} {{ contact.last }}
-                {% elif contact.phone %}
-                    {{ contact.phone }}
-                {% elif contact.email %}
-                    {{ contact.email }}
-                {% endif %}
-            </text>
+        <item key="{{ contact.id }}">
+            <swipe:row xmlns:swipe="https://hypermedia.systems/hyperview/swipeable">
+                <swipe:main>
+                    <view style="contact-item">
+                        <behavior trigger="press" 
+                            action="push" 
+                            href="/contacts/{{ contact.id }}" 
+                        />
+                        <text style="contact-item-label">
+                            {% if contact.first %}
+                                {{ contact.first }} {{ contact.last }}
+                            {% elif contact.phone %}
+                                {{ contact.phone }}
+                            {% elif contact.email %}
+                                {{ contact.email }}
+                            {% endif %}
+                        </text>
+                    </view>
+                </swipe:main>
+
+                <swipe:button>
+                    <view style="swipe-button">
+                        <behavior 
+                            trigger="press" 
+                            action="push" 
+                            href="/contacts/{{ contact.id }}/edit" 
+                        />
+                        <text style="button-label">Edit</text>
+                    </view>
+                </swipe:button>
+
+                <swipe:button>
+                    <view style="swipe-button">
+                        <behavior 
+                            xmlns:alert="https://hyperview.org/hyperview-alert"
+                            trigger="press"
+                            action="alert"
+                            alert:title="Confirm delete"
+                            alert:message="Are you sure you want to delete {{ contact.first }}?"
+                        >
+                            <alert:option alert:label="Confirm">
+                                <behavior 
+                                    trigger="press"
+                                    action="append"
+                                    target="item-{{ contact.id }}"
+                                    href="/contacts/{{ contact.id }}/delete"
+                                    verb="post"
+                                />
+                            </alert:option>
+                            <alert:option alert:label="Cancel" />
+                        </behavior>
+                        <text style="button-label-delete">Delete</text>
+                    </view>
+                </swipe:button>
+            </swipe:row>
         </item>
     {% endfor %}
 
     {% if contacts|length > 0 %}
-    <item key="load-more" id="load-more" style="load-more-item">
+    <item key="load-more-{{ page }}" id="load-more" style="load-more-item">
         <behavior 
             trigger="visible" 
             action="replace" 

@@ -1,0 +1,8 @@
+{% for message in get_flashed_messages() %}
+<behavior 
+    xmlns:message="https://hypermedia.systems/hyperview/message"
+    trigger="load"
+    action="show-message"
+    message:text="{{ message }}"
+/>
+{% endfor %}

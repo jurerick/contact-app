@@ -1,5 +1,6 @@
 <view style="edit-group">
     {% if saved %}
+    {% include "hv/messages.xml" %}
     <behavior 
         trigger="load" 
         action="dispatch-event" 

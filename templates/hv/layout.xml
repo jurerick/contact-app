@@ -9,6 +9,9 @@
         <style id="search-field" backgroundColor="#fcfcfc" borderBottomColor="#ccc" borderBottomWidth="1" padding="24" />
         <style id="load-more-item" padding="24" />
         <style id="loading-text" fontSize="13" color="#666" />
+        <style id="swipe-button" color="#666" />
+        <style id="contact-item-label" color="#aaa" />
+        <style id="contact-section-label" color="#aaa" />
     </styles>
     <body style="body" safe-area="true">
         <header style="header">

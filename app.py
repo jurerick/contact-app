@@ -18,12 +18,18 @@ HTML_MIME = 'text/html'
 HXML_MIME = 'application/vnd.hyperview+xml'
 
 def render_to_response(html_template_name, hxml_template_name, *args, **kwargs):
-    response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
-    template_name = hxml_template_name if response_type == HXML_MIME else html_template_name
-    content = render_template(template_name, *args, **kwargs)
+    content = render_template(hxml_template_name, *args, **kwargs)
     response = make_response(content)
-    response.headers['Content-Type'] = response_type
+    response.headers['Content-Type'] = HXML_MIME
     return response
+
+# def render_to_response(html_template_name, hxml_template_name, *args, **kwargs):
+#     response_type = request.accept_mimetypes.best_match([HTML_MIME, HXML_MIME], default=HTML_MIME)
+#     template_name = hxml_template_name if response_type == HXML_MIME else html_template_name
+#     content = render_template(template_name, *args, **kwargs)
+#     response = make_response(content)
+#     response.headers['Content-Type'] = response_type
+#     return response
 
 @app.route("/")
 def index():
@@ -34,7 +40,7 @@ def contacts():
     search = request.args.get("q")
     page = int(request.args.get("page", 1))
     rows_only = request.args.get("rows_only") == "true"
-    if search is not None:
+    if search:
         contacts_set = Contact.search(search)
         return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set, page=page)
     else:

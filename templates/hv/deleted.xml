@@ -1,4 +1,5 @@
 <view>
+    {% include "hv/messages.xml" %}
     <behavior trigger="load" 
         action="dispatch-event" 
         event-name="contact-updated" 
