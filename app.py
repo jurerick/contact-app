@@ -10,7 +10,7 @@ Contact.load_db()
 # Flask App
 # ========================================================
 
-app = Flask(__name__, static_folder="build")
+app = Flask(__name__, static_folder="_static")
 
 app.secret_key = b'hypermedia rocks'
 
