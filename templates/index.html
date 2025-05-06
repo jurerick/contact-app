@@ -4,72 +4,91 @@
 
 {% include 'archive_ui.html' %}
 
-<form action="/contacts" method="get" class="tool-bar">
-    <label for="search">Search Term</label>
-    <input id="search" type="search" name="q" value="{{ request.args.get('q') or '' }}" 
-        hx-get="/contacts"
-        hx-trigger="search, keyup delay:200ms changed" 
-        hx-target="tbody" 
-        hx-push-url="true" 
-        hx-indicator="#spinner"
-        placeholder="Search Contacts" 
-        _="on keydown[altKey and code is 'KeyS'] from the window me.focus()" />
-    <img style="height: 20px" id="spinner" class="htmx-indicator" src="/static/img/spinning-circles.svg" />
-    <input type="submit" value="Search" />
-</form>
+<div class="mt-10 mb-5">
+    <form action="/contacts" method="get" class="flex items-center">
+        <label for="search">Search Term</label>
+        <input id="search" type="search" name="q" value="{{ request.args.get('q') or '' }}" 
+            hx-get="/contacts"
+            hx-trigger="search, keyup delay:200ms changed" 
+            hx-target="tbody" 
+            hx-push-url="true" 
+            hx-indicator="#spinner"
+            placeholder="Search Contacts" 
+            _="on keydown[altKey and code is 'KeyS'] from the window me.focus()" 
+            class="border-2 border-gray-700 focus:border-pink-600 ml-2 rounded-lg px-4 py-1" />
+        <input type="submit" value="Search" class="cursor-pointer bg-amber-500 rounded-lg px-4 py-1 hover:bg-yellow-300 text-white ml-2" />
+        <img style="height: 20px" id="spinner" class="htmx-indicator mx-2" src="/static/img/spinning-circles.svg" />
+    </form>
+</div>
 
 <form x-data="{ selected: [] }">
-    <template 
-        x-if="selected.length > 0">
-        <div class="box info tool-bar flxed top">
+    <template x-if="selected.length > 0">
+        <div class="text-gray-700 box info tool-bar flxed top rounded-lg flex p-4 bg-red-200 justify-start mb-5">
             <slot x-text="selected.length"></slot>
-            contacts selected
+            contact(s) selected
 
-            <button type="button" class="bad bg color border" 
+            <button type="button" 
+                class="mx-1 text-xs cursor-pointer bg-red-500 rounded-lg px-4 py-1 hover:bg-orange-500 text-white" 
                 @click="confirm(`Delete ${selected.length} contacts?`) &&
-                    htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })"
-            >Delete</button>
-            <hr aria-orientation="vertical">
-            <button type="button" @click="selected = []">Cancel</button>
+                    htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })">
+                Delete
+            </button>
+            
+            <hr aria-orientation="vertical" class="m-1 border h-4 align-middle">
+
+            <button type="button" 
+                @click="selected = []" 
+                class="mx-1 text-xs cursor-pointer bg-gray-500 rounded-lg px-4 py-1 text-white">
+                Cancel
+            </button>
         </div>
     </template>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>First</th>
-                <th>Last</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% include 'rows.html' %}
-            {% if contacts|length == 10 %}
-            <tr>
-                <td colspan="5" style="text-align: center;">
-                    <button hx-target="closest tr" hx-swap="outerHTML" hx-select="tbody tr"
-                        hx-get="/contacts?page={{ page+1 }}">
-                        Load More
-                    </button>
-                </td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+
+    <div class="border-2 border-solid border-gray-300 rounded-xl pt-4 mb-4 min-w-160">
+        <table class="table-auto text-gray-500 text-sm">
+            <thead class="text-gray-400 text-left border-b border-gray-300">
+                <tr>
+                    <th class="py-2 px-2"></th>
+                    <th class="py-2 font-normal">First</th>
+                    <th class="py-2 font-normal">Last</th>
+                    <th class="py-2 font-normal">Phone</th>
+                    <th class="py-2 font-normal">Email</th>
+                    <th class="py-2 font-normal"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% include 'rows.html' %}
+                {% if contacts|length == 10 %}
+                <tr>
+                    <td class="py-2">
+                        <button hx-target="closest tr" hx-swap="outerHTML" hx-select="tbody tr"
+                            hx-get="/contacts?page={{ page+1 }}">
+                            Load More
+                        </button>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
     <button hx-delete="/contacts" 
         hx-confirm="Are you sure you want to delete these contacts?" 
-        hx-target="body">
+        hx-target="body"
+        class="mb-2 mt-1 cursor-pointer bg-red-500 rounded-lg px-4 py-1 hover:bg-orange-600 text-white">
         Delete Selected Contacts
     </button>
 </form>
 
-<p>
-    <a href="/contacts/new">Add Contact</a>
-    <span hx-get="/contacts/count" hx-trigger="revealed">
-        <img id="spinner" style="height: 20px" class="htmx-indicator" src="/static/img/spinning-circles.svg" />
-    </span>
-</p>
+<div class="my-10">
+    <p>
+        <a href="/contacts/new" 
+            class="cursor-pointer inline-block bg-green-500 rounded-lg px-4 py-1 hover:bg-fuchsia-500 text-white">
+            Add Contact
+        </a>
+        <span hx-get="/contacts/count" hx-trigger="revealed" class="align-middle inline-block text-sm">
+            <img id="spinner" style="height: 20px" class="htmx-indicator" src="/static/img/spinning-circles.svg" />
+        </span>
+    </p>
+</div>
 
 {% endblock %}

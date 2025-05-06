@@ -1,20 +1,27 @@
 {% for contact in contacts %}
-    <tr>
-        <td><input type="checkbox" name="selected_contact_ids" value="{{ contact.id }}"
-            x-model="selected"></td>
-        <td>{{ contact.first }}</td>
-        <td>{{ contact.last }}</td>
-        <td>{{ contact.phone }}</td>
-        <td>{{ contact.email }}</td>
-        <td>
+    <tr class="border-b-1 border-gray-200">
+        <td class="p-4">
+            <input type="checkbox" 
+                name="selected_contact_ids" 
+                value="{{ contact.id }}" 
+                x-model="selected"
+                class="cursor-pointer" />
+        </td>
+        <td class="py-4 min-w-24">{{ contact.first }}</td>
+        <td class="py-4 min-w-24">{{ contact.last }}</td>
+        <td class="py-4">{{ contact.phone }}</td>
+        <td class="py-4">{{ contact.email }}</td>
+        <td class="py-4">
             <div data-overflow-menu>
                 <button type="button" aria-haspopup="menu"
                     aria-controls="contact-menu-{{ contact.id }}"
-                    >Options</button>
-                <div role="menu" hidden id="contact-menu-{{ contact.id }}">
-                    <a role="menuitem" href="/contacts/{{ contact.id }}/edit">Edit</a>
-                    <a role="menuitem" href="/contacts/{{ contact.id }}">View</a>
-                    <a role="menuitem" href="#"
+                    class="cursor-pointer text-sm text-blue-600/100">
+                    Options
+                </button>
+                <div role="menu" hidden id="contact-menu-{{ contact.id }}" class="shadow-md w-24 absolute bg-slate-100 text-small rounded-lg">
+                    <a class="rounded-t-lg hover:text-white hover:bg-sky-700 block py-1.5 px-2 border-b border-violet-100" role="menuitem" href="/contacts/{{ contact.id }}/edit">Edit</a>
+                    <a class="hover:text-white hover:bg-sky-700 block py-1.5 px-2 border-b border-violet-100" role="menuitem" href="/contacts/{{ contact.id }}">View</a>
+                    <a class="rounded-b-lg hover:text-white hover:bg-sky-700 block py-1.5 px-2" role="menuitem" href="#"
                         hx-post="/contacts/{{ contact.id }}"
                         hx-confirm="Are you sure you want to delete this contact?"
                         hx-swap="outerHTML swap:1s"

@@ -36,7 +36,8 @@ def contacts():
     rows_only = request.args.get("rows_only") == "true"
     if search is not None:
         contacts_set = Contact.search(search)
-        return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set, page=page)
+        if request.headers.get('HX-Trigger') == 'search':
+            return render_to_response("rows.html", "hv/rows.xml", contacts=contacts_set, page=page)
     else:
         contacts_set = Contact.all(page)
     template_type = "rows" if rows_only else "index"
