@@ -3,41 +3,61 @@
 {% block content %}
 
     <form action="/contacts/{{ contact.id }}/edit" method="post">
-        <fieldset>
+        <fieldset class="border border-gray-200 rounded-sm p-4 my-4">
             <legend>Contact Values</legend>
             <div class="table rows">
-                <p>
-                    <label for="email">Email</label>
-                    <input name="email" id="email" type="email"
-                           hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
-                           hx-trigger="change, keyup delay:200ms changed"
-                           placeholder="Email" value="{{ contact.email }}">
-                    <span class="error">{{ contact.errors['email'] }}</span>
-                </p>
-                <p>
-                    <label for="first_name">First Name</label>
-                    <input name="first_name" id="first_name" type="text" placeholder="First Name"
-                           value="{{ contact.first }}">
-                    <span class="error">{{ contact.errors['first'] }}</span>
-                </p>
-                <p>
-                    <label for="last_name">Last Name</label>
-                    <input name="last_name" id="last_name" type="text" placeholder="Last Name"
-                           value="{{ contact.last }}">
-                    <span class="error">{{ contact.errors['last'] }}</span>
-                </p>
-                <p>
-                    <label for="phone">Phone</label>
-                    <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ contact.phone }}">
-                    <span class="error">{{ contact.errors['phone'] }}</span>
-                </p>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+                    <div class="flex items-center">
+                        <input name="email" id="email" type="email"
+                            hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
+                            hx-trigger="change, keyup delay:200ms changed"
+                            placeholder="Email" value="{{ contact.email }}"
+                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded" 
+                            />
+                        
+                        <span class="error text-sm mx-2">{{ contact.errors['email'] }}</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="first_name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
+                    <div class="flex items-center">
+                        <input name="first_name" id="first_name" type="text" placeholder="First Name"
+                            value="{{ contact.first }}" 
+                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                            />
+
+                        <span class="error text-sm mx-2">{{ contact.errors['first'] }}</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="last_name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
+                    <div class="flex items-center">
+                        <input name="last_name" id="last_name" type="text" placeholder="Last Name"
+                            value="{{ contact.last }}" 
+                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                            />
+                        <span class="error text-sm mx-2">{{ contact.errors['last'] }}</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone</label>
+                    <div class="flex items-center">
+                        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ contact.phone }}" 
+                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                            />
+                        <span class="error text-sm mx-2">{{ contact.errors['phone'] }}</span>
+                    </div>
+                </div>
             </div>
-            <button>Save</button>
+            <button class="cursor-pointer inline-block bg-green-500 rounded-lg px-4 py-1 hover:bg-fuchsia-500 text-white">
+                Save
+            </button>
         </fieldset>
     </form>
 
     <button id="delete-btn"
-            class="bad bg color border"
+            class="mx-1 cursor-pointer bg-red-500 rounded-lg px-4 py-1 hover:bg-orange-500 text-white"
             hx-post="/contacts/{{ contact.id }}"
             hx-push-url="true"
             hx-trigger="confirmed"
@@ -50,8 +70,8 @@
         Delete Contact
     </button>
 
-    <p>
-        <a href="/contacts">Back</a>
+    <p class="mt-4">
+        <a href="/contacts" class="underline text-indigo-700">Back</a>
     </p>
 
 {% endblock %}

@@ -1,13 +1,5 @@
 [
   {
-    "id": 2,
-    "first": "Carson",
-    "last": "Gross",
-    "phone": "123-456-7890",
-    "email": "carson@example.comz",
-    "errors": {}
-  },
-  {
     "id": 6,
     "first": "Joe",
     "last": "Blow",
@@ -107,8 +99,8 @@
     "id": 22,
     "first": "jur erick",
     "last": "porras",
-    "phone": null,
-    "email": "jurerick.porras@gmail.com",
+    "phone": "None",
+    "email": "jurerick.porras@gmail.comr",
     "errors": {}
   },
   {

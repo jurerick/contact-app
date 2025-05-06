@@ -2,17 +2,35 @@
 
 {% block content %}
 
-<h1>{{contact.first}} {{contact.last}}</h1>
-
-<div>
-    <div>Phone: {{contact.phone}}</div>
-    <div>Email: {{contact.email}}</div>
+<div class="my-6 border-t border-gray-100">
+    <dl class="divide-y divide-gray-100">
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm/6 font-medium text-gray-900">Full name</dt>
+            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                {{contact.first}} {{contact.last}}
+            </dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm/6 font-medium text-gray-900">Phone</dt>
+            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                {{contact.phone}}
+            </dd>
+        </div>
+        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="text-sm/6 font-medium text-gray-900">Email address</dt>
+            <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                {{contact.email}}
+            </dd>
+        </div>
+    </dl>
 </div>
 
-<p>
-    <a href="/contacts/{{contact.id}}/edit">Edit</a>
-    <a href="/contacts">Back</a>
+<p class="my-4">
+    <a href="/contacts/{{contact.id}}/edit" 
+        class="mr-2 cursor-pointer bg-green-500 rounded-lg px-4 py-1 hover:bg-teal-500 text-white">
+        Edit
+    </a>
+    <a href="/contacts" class="underline text-indigo-700">Back</a>
 </p>
-
 
 {% endblock %}

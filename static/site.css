@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .flash {
     display: block;
     background-color: #2fdc2f !important;

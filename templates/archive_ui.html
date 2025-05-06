@@ -1,9 +1,10 @@
-<div id="archive-ui" hx-target="this" hx-swap="outerHTML">
+<div id="archive-ui" hx-target="this" hx-swap="outerHTML" class="text-right">
     {% if archiver.status() == "Waiting" %}
-    <button hx-post="/contacts/archive">
+    <button hx-post="/contacts/archive" class="cursor-pointer bg-green-500 rounded-lg px-4 py-1 hover:bg-fuchsia-500 text-white">
         Download Contact Archive
     </button>
     {% elif archiver.status() == "Running" %}
+    
     <div hx-get="/contacts/archive" hx-trigger="load delay:500ms">
         Creating Archive...
         <div class="progress">
@@ -16,7 +17,12 @@
         </div>
     </div>
     {% elif archiver.status() == "Complete" %}
-    <a hx-boost="false" href="/contacts/archive/file" _="on load click() me">Archive Ready! Click here if the download does not start.</a>
-    <button hx-delete="/contacts/archive">Clear Download</button>
+        Archive Ready!
+        <a hx-boost="false" href="/contacts/archive/file" _="on load click() me" class="text-sky-500 no-underline hover:underline">
+            Click here if the download does not start.
+        </a>
+        <button hx-delete="/contacts/archive" class="mx-1 cursor-pointer bg-lime-500 rounded-lg px-4 py-1 hover:bg-lime-600 text-white">
+            Clear Download
+        </button>
     {% endif %}
 </div>
