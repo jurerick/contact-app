@@ -2,76 +2,76 @@
 
 {% block content %}
 
-    <form action="/contacts/{{ contact.id }}/edit" method="post">
-        <fieldset class="border border-gray-200 rounded-sm p-4 my-4">
-            <legend>Contact Values</legend>
-            <div class="table rows">
-                <div class="mb-4">
-                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
-                    <div class="flex items-center">
-                        <input name="email" id="email" type="email"
-                            hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
-                            hx-trigger="change, keyup delay:200ms changed"
-                            placeholder="Email" value="{{ contact.email }}"
-                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded" 
-                            />
-                        
-                        <span class="error text-sm mx-2">{{ contact.errors['email'] }}</span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="first_name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
-                    <div class="flex items-center">
-                        <input name="first_name" id="first_name" type="text" placeholder="First Name"
-                            value="{{ contact.first }}" 
-                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
-                            />
-
-                        <span class="error text-sm mx-2">{{ contact.errors['first'] }}</span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="last_name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
-                    <div class="flex items-center">
-                        <input name="last_name" id="last_name" type="text" placeholder="Last Name"
-                            value="{{ contact.last }}" 
-                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
-                            />
-                        <span class="error text-sm mx-2">{{ contact.errors['last'] }}</span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone</label>
-                    <div class="flex items-center">
-                        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ contact.phone }}" 
-                            class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
-                            />
-                        <span class="error text-sm mx-2">{{ contact.errors['phone'] }}</span>
-                    </div>
+<form action="/contacts/{{ contact.id }}/edit" method="post">
+    <fieldset class="border border-gray-200 rounded-sm p-4 my-4">
+        <legend>Contact Values</legend>
+        <div class="table rows">
+            <div class="mb-4">
+                <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+                <div class="flex items-center">
+                    <input name="email" id="email" type="email"
+                        hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
+                        hx-trigger="change, keyup delay:200ms changed"
+                        placeholder="Email" value="{{ contact.email }}"
+                        class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded" 
+                        />
+                    
+                    <span class="error text-sm mx-2">{{ contact.errors['email'] }}</span>
                 </div>
             </div>
-            <button class="cursor-pointer inline-block bg-green-500 rounded-lg px-4 py-1 hover:bg-fuchsia-500 text-white">
-                Save
-            </button>
-        </fieldset>
-    </form>
+            <div class="mb-4">
+                <label for="first_name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
+                <div class="flex items-center">
+                    <input name="first_name" id="first_name" type="text" placeholder="First Name"
+                        value="{{ contact.first }}" 
+                        class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                        />
 
-    <button id="delete-btn"
-            class="mx-1 cursor-pointer bg-red-500 rounded-lg px-4 py-1 hover:bg-orange-500 text-white"
-            hx-post="/contacts/{{ contact.id }}"
-            hx-push-url="true"
-            hx-trigger="confirmed"
-            hx-target="body"
-            @click="sweetConfirm($el, {
-                title: 'Delete this contacts?',
-                showCancelButton: true,
-                confirmButtonText: 'Delete'
-            })">
-        Delete Contact
-    </button>
+                    <span class="error text-sm mx-2">{{ contact.errors['first'] }}</span>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="last_name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
+                <div class="flex items-center">
+                    <input name="last_name" id="last_name" type="text" placeholder="Last Name"
+                        value="{{ contact.last }}" 
+                        class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                        />
+                    <span class="error text-sm mx-2">{{ contact.errors['last'] }}</span>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone</label>
+                <div class="flex items-center">
+                    <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ contact.phone }}" 
+                        class="block w-60 py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none border rounded"
+                        />
+                    <span class="error text-sm mx-2">{{ contact.errors['phone'] }}</span>
+                </div>
+            </div>
+        </div>
+        <button class="cursor-pointer inline-block bg-green-500 rounded-lg px-4 py-1 hover:bg-fuchsia-500 text-white">
+            Save
+        </button>
+    </fieldset>
+</form>
 
-    <p class="mt-4">
-        <a href="/contacts" class="underline text-indigo-700">Back</a>
-    </p>
+<button id="delete-btn"
+        class="mx-1 cursor-pointer bg-red-500 rounded-lg px-4 py-1 hover:bg-orange-500 text-white"
+        hx-post="/contacts/{{ contact.id }}"
+        hx-push-url="true"
+        hx-trigger="confirmed"
+        hx-target="body"
+        @click="sweetConfirm($el, {
+            title: 'Delete this contacts?',
+            showCancelButton: true,
+            confirmButtonText: 'Delete'
+        })">
+    Delete Contact
+</button>
+
+<p class="mt-4">
+    <a href="/contacts" class="underline text-indigo-700">Back</a>
+</p>
 
 {% endblock %}
